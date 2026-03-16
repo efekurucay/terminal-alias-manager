@@ -25,7 +25,7 @@
       "platform": "macOS",
       "price": "Free",
       "github": "https://github.com/efekurucay/terminal-alias-manager",
-      "homepage": null,
+      "homepage": "https://efekurucay.com",
       "language": "Swift",
       "downloadUrl": "https://github.com/efekurucay/terminal-alias-manager/releases/latest",
       "requirements": "macOS 14.0 (Sonoma) or later",
