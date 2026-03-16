@@ -1,14 +1,14 @@
 import Foundation
 
-/// ~/.zshrc dosyasını okuma, yazma ve parse etme servisi.
+/// Service for reading, writing, and parsing the ~/.zshrc file.
 final class ZshrcService {
 
     // MARK: - Properties
 
-    /// Zshrc dosyasının tam yolu
+    /// Full path to the zshrc file
     private let zshrcPath: String
 
-    /// Dosyadaki alias olmayan satırları korumak için
+    /// Preserves non-alias lines in the file
     private var nonAliasLines: [(index: Int, content: String)] = []
 
     // MARK: - Init
@@ -23,12 +23,12 @@ final class ZshrcService {
 
     // MARK: - Read
 
-    /// .zshrc dosyasını okuyup alias'ları parse eder.
+    /// Reads and parses aliases from the .zshrc file.
     func loadAliases() throws -> [AliasItem] {
         let fileURL = URL(fileURLWithPath: zshrcPath)
 
         guard FileManager.default.fileExists(atPath: zshrcPath) else {
-            // .zshrc yoksa boş liste döndür
+            // Return empty list if .zshrc doesn't exist
             return []
         }
 
@@ -43,7 +43,7 @@ final class ZshrcService {
         for (index, line) in lines.enumerated() {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
 
-            // Yorum satırı olan devre dışı alias kontrolü
+            // Check for commented-out (disabled) alias
             if let disabledAlias = parseDisabledAlias(trimmed) {
                 var alias = disabledAlias
                 alias = AliasItem(
@@ -57,7 +57,7 @@ final class ZshrcService {
                 continue
             }
 
-            // Aktif alias satırı kontrolü
+            // Check for active alias line
             if let alias = parseAliasLine(trimmed) {
                 var item = alias
                 item = AliasItem(
@@ -71,29 +71,24 @@ final class ZshrcService {
                 continue
             }
 
-            // Alias'tan hemen önceki yorum satırını yakala
+            // Capture comment line immediately before an alias
             if trimmed.hasPrefix("#") && !trimmed.hasPrefix("#!") {
                 let commentText = String(trimmed.dropFirst()).trimmingCharacters(in: .whitespaces)
-                // Bir sonraki satırda alias var mı kontrol edip
-                // şimdilik yorum olarak sakla
                 pendingComment = commentText
-                // Ama bu yorum alias'a ait olmayabilir, nonAliasLines'a da ekle
-                // Eğer bir sonraki iterasyonda alias bulunursa pendingComment kullanılacak
-                // Bulamazsa nonAliasLines'a eklenecek
                 continue
             }
 
-            // Alias değilse, önceki yorum da alias'a ait değildi
+            // Not an alias — previous comment wasn't alias-related either
             if !pendingComment.isEmpty {
                 nonAliasLines.append((index: index - 1, content: "# \(pendingComment)"))
                 pendingComment = ""
             }
 
-            // Alias olmayan satır
+            // Non-alias line
             nonAliasLines.append((index: index, content: line))
         }
 
-        // Son satırda kalan yorum
+        // Remaining comment at end of file
         if !pendingComment.isEmpty {
             nonAliasLines.append((index: lines.count, content: "# \(pendingComment)"))
         }
@@ -103,18 +98,18 @@ final class ZshrcService {
 
     // MARK: - Write
 
-    /// Alias listesini .zshrc dosyasına yazar.
-    /// Alias olmayan satırları korur.
+    /// Writes the alias list back to the .zshrc file.
+    /// Preserves non-alias lines.
     func saveAliases(_ aliases: [AliasItem]) throws {
         let fileURL = URL(fileURLWithPath: zshrcPath)
 
-        // Mevcut dosyayı oku
+        // Read existing file
         var existingContent = ""
         if FileManager.default.fileExists(atPath: zshrcPath) {
             existingContent = try String(contentsOf: fileURL, encoding: .utf8)
         }
 
-        // Alias olmayan satırları ayıkla
+        // Extract non-alias lines
         let existingLines = existingContent.components(separatedBy: .newlines)
         var preservedLines: [String] = []
         var skipNextComment = false
@@ -122,15 +117,15 @@ final class ZshrcService {
         for (index, line) in existingLines.enumerated() {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
 
-            // Alias'tan önceki yorum satırını atla (yeni halini yazacağız)
+            // Skip comment line before alias (will be rewritten)
             if skipNextComment {
                 skipNextComment = false
                 continue
             }
 
-            // Aktif veya devre dışı alias satırı mı?
+            // Is this an active or disabled alias line?
             if parseAliasLine(trimmed) != nil || parseDisabledAlias(trimmed) != nil {
-                // Bir önceki satır bu alias'ın yorumu olabilir
+                // Previous line might be this alias's comment
                 if index > 0 {
                     let prevTrimmed = existingLines[index - 1].trimmingCharacters(in: .whitespaces)
                     if prevTrimmed.hasPrefix("#") && !prevTrimmed.hasPrefix("#!") && !preservedLines.isEmpty {
@@ -143,12 +138,12 @@ final class ZshrcService {
             preservedLines.append(line)
         }
 
-        // Sondaki boş satırları temizle
+        // Trim trailing blank lines
         while preservedLines.last?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true {
             preservedLines.removeLast()
         }
 
-        // Alias bloğunu oluştur
+        // Build the alias block
         var aliasBlock: [String] = []
         if !aliases.isEmpty {
             aliasBlock.append("")
@@ -162,14 +157,14 @@ final class ZshrcService {
             aliasBlock.append("")
         }
 
-        // Birleştir ve yaz
+        // Merge and write
         let finalContent = (preservedLines + aliasBlock).joined(separator: "\n")
         try finalContent.write(to: fileURL, atomically: true, encoding: .utf8)
     }
 
     // MARK: - Source
 
-    /// `source ~/.zshrc` komutunu terminalde çalıştırır.
+    /// Runs `source ~/.zshrc` in the terminal.
     @discardableResult
     func sourceZshrc() -> Bool {
         let task = Process()
@@ -181,21 +176,21 @@ final class ZshrcService {
             task.waitUntilExit()
             return task.terminationStatus == 0
         } catch {
-            print("source ~/.zshrc çalıştırılamadı: \(error)")
+            print("Failed to run source ~/.zshrc: \(error)")
             return false
         }
     }
 
     // MARK: - Backup
 
-    /// .zshrc dosyasının yedeğini oluşturur.
+    /// Creates a backup of the .zshrc file.
     func createBackup() throws -> String {
         let backupPath = zshrcPath + ".backup_\(dateString())"
         try FileManager.default.copyItem(atPath: zshrcPath, toPath: backupPath)
         return backupPath
     }
 
-    /// Yedekten geri yükler.
+    /// Restores from a backup file.
     func restoreFromBackup(_ backupPath: String) throws {
         try FileManager.default.removeItem(atPath: zshrcPath)
         try FileManager.default.copyItem(atPath: backupPath, toPath: zshrcPath)
@@ -203,16 +198,14 @@ final class ZshrcService {
 
     // MARK: - Private Parse Helpers
 
-    /// "alias name='command'" formatındaki satırı parse eder.
+    /// Parses a line in "alias name='command'" format.
     private func parseAliasLine(_ line: String) -> AliasItem? {
-        // Regex: alias name='command' veya alias name="command"
         let pattern = #"^alias\s+(\S+?)=(['\"])(.*)\2\s*$"#
         guard let regex = try? NSRegularExpression(pattern: pattern),
               let match = regex.firstMatch(
                 in: line,
                 range: NSRange(line.startIndex..., in: line)
               ) else {
-            // Tırnak olmadan da dene: alias name=command
             return parseUnquotedAlias(line)
         }
 
@@ -228,7 +221,7 @@ final class ZshrcService {
         return AliasItem(name: name, command: command)
     }
 
-    /// Tırnak işareti olmayan alias: alias name=command
+    /// Parses an unquoted alias: alias name=command
     private func parseUnquotedAlias(_ line: String) -> AliasItem? {
         let pattern = #"^alias\s+(\S+?)=(\S+)\s*$"#
         guard let regex = try? NSRegularExpression(pattern: pattern),
@@ -250,7 +243,7 @@ final class ZshrcService {
         )
     }
 
-    /// "# alias name='command'" formatındaki devre dışı alias'ı parse eder.
+    /// Parses a commented-out (disabled) alias: "# alias name='command'"
     private func parseDisabledAlias(_ line: String) -> AliasItem? {
         guard line.hasPrefix("#") else { return nil }
         let uncommented = String(line.dropFirst()).trimmingCharacters(in: .whitespaces)

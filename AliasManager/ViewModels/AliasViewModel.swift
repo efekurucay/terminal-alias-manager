@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-/// Alias listesi için iş mantığını yöneten ViewModel.
+/// ViewModel managing the alias list business logic.
 @MainActor
 final class AliasViewModel: ObservableObject {
 
@@ -21,9 +21,9 @@ final class AliasViewModel: ObservableObject {
     // MARK: - Enums
 
     enum SortOrder: String, CaseIterable {
-        case name = "İsim"
-        case command = "Komut"
-        case status = "Durum"
+        case name = "Name"
+        case command = "Command"
+        case status = "Status"
     }
 
     // MARK: - Private
@@ -32,11 +32,11 @@ final class AliasViewModel: ObservableObject {
 
     // MARK: - Computed
 
-    /// Arama ve sıralama filtresi uygulanmış alias listesi
+    /// Filtered and sorted alias list
     var filteredAliases: [AliasItem] {
         var result = aliases
 
-        // Arama filtresi
+        // Search filter
         if !searchText.isEmpty {
             let query = searchText.lowercased()
             result = result.filter { alias in
@@ -46,7 +46,7 @@ final class AliasViewModel: ObservableObject {
             }
         }
 
-        // Sıralama
+        // Sort
         switch sortOrder {
         case .name:
             result.sort { $0.name.lowercased() < $1.name.lowercased() }
@@ -59,12 +59,12 @@ final class AliasViewModel: ObservableObject {
         return result
     }
 
-    /// Aktif alias sayısı
+    /// Number of active aliases
     var activeCount: Int {
         aliases.filter(\.isEnabled).count
     }
 
-    /// Devre dışı alias sayısı
+    /// Number of disabled aliases
     var disabledCount: Int {
         aliases.filter { !$0.isEnabled }.count
     }
@@ -77,50 +77,49 @@ final class AliasViewModel: ObservableObject {
 
     // MARK: - CRUD Operations
 
-    /// Alias'ları .zshrc'den yükler.
+    /// Loads aliases from .zshrc.
     func loadAliases() {
         isLoading = true
         do {
             aliases = try service.loadAliases()
         } catch {
-            showError("Alias'lar yüklenemedi: \(error.localizedDescription)")
+            showError("Failed to load aliases: \(error.localizedDescription)")
         }
         isLoading = false
     }
 
-    /// Alias'ları .zshrc'ye kaydeder.
+    /// Saves aliases to .zshrc.
     func saveAliases() {
         do {
             try service.saveAliases(aliases)
             service.sourceZshrc()
         } catch {
-            showError("Alias'lar kaydedilemedi: \(error.localizedDescription)")
+            showError("Failed to save aliases: \(error.localizedDescription)")
         }
     }
 
-    /// Yeni alias ekler.
+    /// Adds a new alias.
     func addAlias(name: String, command: String, comment: String = "") {
-        // İsim kontrolü
         guard !name.isEmpty else {
-            showError("Alias adı boş olamaz.")
+            showError("Alias name cannot be empty.")
             return
         }
 
         guard !command.isEmpty else {
-            showError("Komut boş olamaz.")
+            showError("Command cannot be empty.")
             return
         }
 
-        // Alias adı zaten var mı?
+        // Check for duplicate name
         if aliases.contains(where: { $0.name == name }) {
-            showError("'\(name)' adında bir alias zaten mevcut.")
+            showError("An alias named '\(name)' already exists.")
             return
         }
 
-        // İsimde boşluk veya özel karakter kontrolü
+        // Validate alias name characters
         let validNamePattern = #"^[a-zA-Z_][a-zA-Z0-9_-]*$"#
         guard name.range(of: validNamePattern, options: .regularExpression) != nil else {
-            showError("Alias adı sadece harf, rakam, alt çizgi ve tire içerebilir.")
+            showError("Alias name can only contain letters, numbers, underscores, and hyphens.")
             return
         }
 
@@ -136,13 +135,13 @@ final class AliasViewModel: ObservableObject {
         selectedAlias = newAlias
     }
 
-    /// Var olan alias'ı günceller.
+    /// Updates an existing alias.
     func updateAlias(_ alias: AliasItem, name: String, command: String, comment: String) {
         guard let index = aliases.firstIndex(where: { $0.id == alias.id }) else { return }
 
-        // Yeni isim başka bir alias'ta var mı?
+        // Check if the new name conflicts with another alias
         if name != alias.name && aliases.contains(where: { $0.name == name }) {
-            showError("'\(name)' adında bir alias zaten mevcut.")
+            showError("An alias named '\(name)' already exists.")
             return
         }
 
@@ -151,13 +150,13 @@ final class AliasViewModel: ObservableObject {
         aliases[index].comment = comment
         saveAliases()
 
-        // Seçili alias'ı güncelle
+        // Update selection
         if selectedAlias?.id == alias.id {
             selectedAlias = aliases[index]
         }
     }
 
-    /// Alias siler.
+    /// Deletes an alias.
     func deleteAlias(_ alias: AliasItem) {
         aliases.removeAll { $0.id == alias.id }
         if selectedAlias?.id == alias.id {
@@ -166,7 +165,7 @@ final class AliasViewModel: ObservableObject {
         saveAliases()
     }
 
-    /// Birden fazla alias siler.
+    /// Deletes multiple aliases.
     func deleteAliases(_ aliasIDs: Set<UUID>) {
         aliases.removeAll { aliasIDs.contains($0.id) }
         if let sel = selectedAlias, aliasIDs.contains(sel.id) {
@@ -175,7 +174,7 @@ final class AliasViewModel: ObservableObject {
         saveAliases()
     }
 
-    /// Alias'ı etkinleştir / devre dışı bırak.
+    /// Toggles an alias between enabled and disabled.
     func toggleAlias(_ alias: AliasItem) {
         guard let index = aliases.firstIndex(where: { $0.id == alias.id }) else { return }
         aliases[index].isEnabled.toggle()
@@ -186,7 +185,7 @@ final class AliasViewModel: ObservableObject {
         }
     }
 
-    /// Alias'ı kopyalar (duplicate).
+    /// Duplicates an alias.
     func duplicateAlias(_ alias: AliasItem) {
         var newName = alias.name + "_copy"
         var counter = 1
@@ -209,45 +208,45 @@ final class AliasViewModel: ObservableObject {
 
     // MARK: - Backup
 
-    /// .zshrc yedeği oluşturur.
+    /// Creates a .zshrc backup.
     func createBackup() -> String? {
         do {
             let path = try service.createBackup()
             return path
         } catch {
-            showError("Yedek oluşturulamadı: \(error.localizedDescription)")
+            showError("Failed to create backup: \(error.localizedDescription)")
             return nil
         }
     }
 
-    /// Yedekten geri yükler.
+    /// Restores from a backup.
     func restoreFromBackup(_ path: String) {
         do {
             try service.restoreFromBackup(path)
             loadAliases()
         } catch {
-            showError("Geri yükleme başarısız: \(error.localizedDescription)")
+            showError("Restore failed: \(error.localizedDescription)")
         }
     }
 
     // MARK: - Export / Import
 
-    /// Alias'ları JSON olarak dışa aktarır.
+    /// Exports aliases as JSON.
     func exportToJSON() -> Data? {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         return try? encoder.encode(aliases)
     }
 
-    /// JSON'dan alias'ları içe aktarır.
+    /// Imports aliases from JSON.
     func importFromJSON(_ data: Data) {
         let decoder = JSONDecoder()
         guard let imported = try? decoder.decode([AliasItem].self, from: data) else {
-            showError("JSON dosyası okunamadı.")
+            showError("Failed to read JSON file.")
             return
         }
 
-        // Çakışan isimleri atla
+        // Skip aliases with conflicting names
         var added = 0
         for alias in imported {
             if !aliases.contains(where: { $0.name == alias.name }) {
@@ -260,7 +259,7 @@ final class AliasViewModel: ObservableObject {
             saveAliases()
         }
 
-        showInfo("\(added) alias içe aktarıldı. \(imported.count - added) tanesi zaten mevcut olduğu için atlandı.")
+        showInfo("\(added) alias(es) imported. \(imported.count - added) skipped (already exist).")
     }
 
     // MARK: - Helpers

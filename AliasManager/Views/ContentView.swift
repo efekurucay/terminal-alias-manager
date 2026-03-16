@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Ana uygulama görünümü — NavigationSplitView ile Finder tarzı arayüz.
+/// Main app view — Finder-style NavigationSplitView interface.
 struct ContentView: View {
     @StateObject private var viewModel = AliasViewModel()
     @State private var showDeleteConfirm = false
@@ -8,33 +8,33 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView {
-            // Sol panel: Alias listesi
+            // Sidebar: Alias list
             sidebarContent
                 .navigationSplitViewColumnWidth(min: 250, ideal: 300)
         } detail: {
-            // Sağ panel: Detay
+            // Detail panel
             detailContent
         }
         .navigationTitle("AliasManager")
-        .searchable(text: $viewModel.searchText, prompt: "Alias ara...")
+        .searchable(text: $viewModel.searchText, prompt: "Search aliases...")
         .onAppear {
             viewModel.loadAliases()
         }
-        .alert("Bilgi", isPresented: $viewModel.showAlert) {
-            Button("Tamam", role: .cancel) {}
+        .alert("Notice", isPresented: $viewModel.showAlert) {
+            Button("OK", role: .cancel) {}
         } message: {
             Text(viewModel.alertMessage)
         }
-        .alert("Alias'ı Sil", isPresented: $showDeleteConfirm) {
-            Button("İptal", role: .cancel) {}
-            Button("Sil", role: .destructive) {
+        .alert("Delete Alias", isPresented: $showDeleteConfirm) {
+            Button("Cancel", role: .cancel) {}
+            Button("Delete", role: .destructive) {
                 if let alias = aliasToDelete {
                     viewModel.deleteAlias(alias)
                 }
             }
         } message: {
             if let alias = aliasToDelete {
-                Text("'\(alias.name)' alias'ını silmek istediğinize emin misiniz?")
+                Text("Are you sure you want to delete '\(alias.name)'?")
             }
         }
         .sheet(isPresented: $viewModel.isShowingAddForm) {
@@ -59,7 +59,7 @@ struct ContentView: View {
     @ViewBuilder
     private var sidebarContent: some View {
         if viewModel.isLoading {
-            ProgressView("Yükleniyor...")
+            ProgressView("Loading...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if viewModel.filteredAliases.isEmpty {
             VStack(spacing: 16) {
@@ -68,18 +68,18 @@ struct ContentView: View {
                     .foregroundColor(.secondary)
 
                 if viewModel.searchText.isEmpty {
-                    Text("Henüz alias yok")
+                    Text("No aliases yet")
                         .font(.headline)
                         .foregroundColor(.secondary)
-                    Text("Yeni bir alias eklemek için\n+ butonuna tıklayın.")
+                    Text("Click the + button\nto add a new alias.")
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 } else {
-                    Text("Sonuç bulunamadı")
+                    Text("No results found")
                         .font(.headline)
                         .foregroundColor(.secondary)
-                    Text("'\(viewModel.searchText)' ile eşleşen alias yok.")
+                    Text("No aliases matching '\(viewModel.searchText)'.")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -128,7 +128,7 @@ struct ContentView: View {
                 Image(systemName: "arrow.left.circle")
                     .font(.system(size: 40))
                     .foregroundColor(.secondary)
-                Text("Listeden bir alias seçin")
+                Text("Select an alias from the list")
                     .font(.headline)
                     .foregroundColor(.secondary)
             }
@@ -139,15 +139,15 @@ struct ContentView: View {
 
     private var statusBar: some View {
         HStack {
-            Text("\(viewModel.activeCount) aktif")
+            Text("\(viewModel.activeCount) active")
                 .foregroundColor(.green)
-            Text("•")
+            Text("·")
                 .foregroundColor(.secondary)
-            Text("\(viewModel.disabledCount) devre dışı")
+            Text("\(viewModel.disabledCount) disabled")
                 .foregroundColor(.secondary)
-            Text("•")
+            Text("·")
                 .foregroundColor(.secondary)
-            Text("\(viewModel.aliases.count) toplam")
+            Text("\(viewModel.aliases.count) total")
                 .foregroundColor(.secondary)
         }
         .font(.caption)
@@ -161,7 +161,7 @@ struct ContentView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItemGroup(placement: .primaryAction) {
-            // Sıralama menüsü
+            // Sort menu
             Menu {
                 ForEach(AliasViewModel.SortOrder.allCases, id: \.self) { order in
                     Button {
@@ -178,39 +178,39 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "arrow.up.arrow.down")
             }
-            .help("Sırala")
+            .help("Sort")
 
-            // Yenile
+            // Refresh
             Button {
                 viewModel.loadAliases()
             } label: {
                 Image(systemName: "arrow.clockwise")
             }
-            .help("Yenile")
+            .help("Refresh")
             .keyboardShortcut("r", modifiers: .command)
 
-            // Yeni alias ekle
+            // Add new alias
             Button {
                 viewModel.isShowingAddForm = true
             } label: {
                 Image(systemName: "plus")
             }
-            .help("Yeni Alias Ekle")
+            .help("Add New Alias")
             .keyboardShortcut("n", modifiers: .command)
         }
 
         ToolbarItemGroup(placement: .secondaryAction) {
-            // Yedekle
+            // Backup
             Button {
                 if let path = viewModel.createBackup() {
-                    viewModel.alertMessage = "Yedek oluşturuldu: \(path)"
+                    viewModel.alertMessage = "Backup created: \(path)"
                     viewModel.showAlert = true
                 }
             } label: {
-                Label("Yedekle", systemImage: "externaldrive.badge.plus")
+                Label("Backup", systemImage: "externaldrive.badge.plus")
             }
 
-            // JSON Dışa Aktar
+            // Export JSON
             Button {
                 if let data = viewModel.exportToJSON() {
                     let panel = NSSavePanel()
@@ -223,10 +223,10 @@ struct ContentView: View {
                     }
                 }
             } label: {
-                Label("JSON Dışa Aktar", systemImage: "square.and.arrow.up")
+                Label("Export JSON", systemImage: "square.and.arrow.up")
             }
 
-            // JSON İçe Aktar
+            // Import JSON
             Button {
                 let panel = NSOpenPanel()
                 panel.allowedContentTypes = [.json]
@@ -237,7 +237,7 @@ struct ContentView: View {
                     }
                 }
             } label: {
-                Label("JSON İçe Aktar", systemImage: "square.and.arrow.down")
+                Label("Import JSON", systemImage: "square.and.arrow.down")
             }
         }
     }

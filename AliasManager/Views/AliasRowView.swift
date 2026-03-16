@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Liste içinde her bir alias satırının görünümü.
+/// A single alias row in the sidebar list.
 struct AliasRowView: View {
     let alias: AliasItem
     let onToggle: () -> Void
@@ -9,12 +9,12 @@ struct AliasRowView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            // Durum göstergesi
+            // Status indicator
             Circle()
                 .fill(alias.isEnabled ? Color.green : Color.gray.opacity(0.4))
                 .frame(width: 8, height: 8)
 
-            // Alias bilgileri
+            // Alias info
             VStack(alignment: .leading, spacing: 2) {
                 Text(alias.name)
                     .font(.system(.body, design: .monospaced))
@@ -29,7 +29,7 @@ struct AliasRowView: View {
 
             Spacer()
 
-            // Yorum varsa ikon göster
+            // Show icon if comment exists
             if !alias.comment.isEmpty {
                 Image(systemName: "text.bubble")
                     .font(.caption)
@@ -44,7 +44,7 @@ struct AliasRowView: View {
                 onToggle()
             } label: {
                 Label(
-                    alias.isEnabled ? "Devre Dışı Bırak" : "Etkinleştir",
+                    alias.isEnabled ? "Disable" : "Enable",
                     systemImage: alias.isEnabled ? "pause.circle" : "play.circle"
                 )
             }
@@ -52,7 +52,7 @@ struct AliasRowView: View {
             Button {
                 onDuplicate()
             } label: {
-                Label("Kopyala", systemImage: "doc.on.doc")
+                Label("Duplicate", systemImage: "doc.on.doc")
             }
 
             Divider()
@@ -60,7 +60,7 @@ struct AliasRowView: View {
             Button(role: .destructive) {
                 onDelete()
             } label: {
-                Label("Sil", systemImage: "trash")
+                Label("Delete", systemImage: "trash")
             }
         }
     }

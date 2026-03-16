@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Seçili alias'ın detay paneli (sağ taraf).
+/// Detail panel for the selected alias (right side).
 struct AliasDetailView: View {
     let alias: AliasItem
     let onEdit: () -> Void
@@ -12,12 +12,12 @@ struct AliasDetailView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Üst başlık alanı
+            // Header
             headerSection
 
             Divider()
 
-            // İçerik
+            // Content
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     commandSection
@@ -31,7 +31,7 @@ struct AliasDetailView: View {
 
             Divider()
 
-            // Alt buton alanı
+            // Action bar
             actionBar
         }
         .frame(minWidth: 350)
@@ -48,8 +48,8 @@ struct AliasDetailView: View {
                         .fontWeight(.bold)
                         .fontDesign(.monospaced)
 
-                    // Durum etiketi
-                    Text(alias.isEnabled ? "Aktif" : "Devre Dışı")
+                    // Status badge
+                    Text(alias.isEnabled ? "Active" : "Disabled")
                         .font(.caption)
                         .fontWeight(.medium)
                         .padding(.horizontal, 8)
@@ -66,7 +66,7 @@ struct AliasDetailView: View {
 
             Spacer()
 
-            // Düzenle butonu
+            // Edit button
             Button {
                 onEdit()
             } label: {
@@ -75,14 +75,14 @@ struct AliasDetailView: View {
                     .foregroundColor(.accentColor)
             }
             .buttonStyle(.plain)
-            .help("Düzenle")
+            .help("Edit")
         }
         .padding(20)
     }
 
     private var commandSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("Komut", systemImage: "terminal")
+            Label("Command", systemImage: "terminal")
                 .font(.headline)
                 .foregroundColor(.secondary)
 
@@ -110,14 +110,14 @@ struct AliasDetailView: View {
                         .foregroundColor(isCopied ? .green : .secondary)
                 }
                 .buttonStyle(.plain)
-                .help("Komutu Kopyala")
+                .help("Copy Command")
             }
         }
     }
 
     private var commentSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("Açıklama", systemImage: "text.bubble")
+            Label("Description", systemImage: "text.bubble")
                 .font(.headline)
                 .foregroundColor(.secondary)
 
@@ -133,7 +133,7 @@ struct AliasDetailView: View {
 
     private var previewSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label(".zshrc Satırı", systemImage: "doc.text")
+            Label(".zshrc Output", systemImage: "doc.text")
                 .font(.headline)
                 .foregroundColor(.secondary)
 
@@ -153,7 +153,7 @@ struct AliasDetailView: View {
                 onToggle()
             } label: {
                 Label(
-                    alias.isEnabled ? "Devre Dışı Bırak" : "Etkinleştir",
+                    alias.isEnabled ? "Disable" : "Enable",
                     systemImage: alias.isEnabled ? "pause.circle" : "play.circle"
                 )
             }
@@ -161,7 +161,7 @@ struct AliasDetailView: View {
             Button {
                 onDuplicate()
             } label: {
-                Label("Kopyala", systemImage: "doc.on.doc")
+                Label("Duplicate", systemImage: "doc.on.doc")
             }
 
             Spacer()
@@ -169,7 +169,7 @@ struct AliasDetailView: View {
             Button(role: .destructive) {
                 onDelete()
             } label: {
-                Label("Sil", systemImage: "trash")
+                Label("Delete", systemImage: "trash")
             }
         }
         .padding(16)

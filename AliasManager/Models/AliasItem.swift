@@ -1,13 +1,13 @@
 import Foundation
 
-/// Tek bir terminal alias'ını temsil eden model.
-/// Örneğin: alias gs='git status'
+/// Represents a single terminal alias.
+/// Example: alias gs='git status'
 struct AliasItem: Identifiable, Hashable, Codable {
     let id: UUID
-    var name: String       // Alias adı, örn: "gs"
-    var command: String    // Alias komutu, örn: "git status"
-    var isEnabled: Bool    // Alias aktif mi?
-    var comment: String    // Opsiyonel açıklama
+    var name: String       // Alias name, e.g. "gs"
+    var command: String    // Alias command, e.g. "git status"
+    var isEnabled: Bool    // Whether the alias is active
+    var comment: String    // Optional description
 
     init(
         id: UUID = UUID(),
@@ -23,7 +23,7 @@ struct AliasItem: Identifiable, Hashable, Codable {
         self.comment = comment
     }
 
-    /// Alias'ın .zshrc'ye yazılacak tam satırını döndürür.
+    /// Returns the full line to be written to .zshrc.
     var zshrcLine: String {
         var lines: [String] = []
         if !comment.isEmpty {
@@ -38,7 +38,7 @@ struct AliasItem: Identifiable, Hashable, Codable {
         return lines.joined(separator: "\n")
     }
 
-    /// Alias satırının kısa önizlemesi
+    /// Short preview of the alias line
     var preview: String {
         "alias \(name)='\(command)'"
     }

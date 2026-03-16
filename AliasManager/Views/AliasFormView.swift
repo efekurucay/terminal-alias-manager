@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Alias ekleme ve düzenleme formu.
+/// Form for adding and editing aliases.
 struct AliasFormView: View {
     @Environment(\.dismiss) private var dismiss
 
@@ -48,9 +48,9 @@ struct AliasFormView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Başlık
+            // Title
             HStack {
-                Text(isEditing ? "Alias Düzenle" : "Yeni Alias")
+                Text(isEditing ? "Edit Alias" : "New Alias")
                     .font(.headline)
                 Spacer()
                 Button {
@@ -65,11 +65,11 @@ struct AliasFormView: View {
 
             Divider()
 
-            // Form alanları
+            // Form fields
             VStack(alignment: .leading, spacing: 16) {
-                // Alias Adı
+                // Alias Name
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Alias Adı")
+                    Text("Alias Name")
                         .font(.subheadline)
                         .fontWeight(.medium)
 
@@ -80,21 +80,21 @@ struct AliasFormView: View {
                         .opacity(isEditing ? 0.7 : 1.0)
 
                     if showValidation && !isNameValid {
-                        Text("Geçerli bir alias adı girin (harf, rakam, _, -)")
+                        Text("Enter a valid alias name (letters, numbers, _, -)")
                             .font(.caption)
                             .foregroundColor(.red)
                     }
 
                     if isEditing {
-                        Text("Alias adı düzenlenemez.")
+                        Text("Alias name cannot be changed.")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                 }
 
-                // Komut
+                // Command
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Komut")
+                    Text("Command")
                         .font(.subheadline)
                         .fontWeight(.medium)
 
@@ -103,26 +103,26 @@ struct AliasFormView: View {
                         .font(.system(.body, design: .monospaced))
 
                     if showValidation && !isCommandValid {
-                        Text("Komut boş olamaz.")
+                        Text("Command cannot be empty.")
                             .font(.caption)
                             .foregroundColor(.red)
                     }
                 }
 
-                // Açıklama (opsiyonel)
+                // Description (optional)
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Açıklama (opsiyonel)")
+                    Text("Description (optional)")
                         .font(.subheadline)
                         .fontWeight(.medium)
 
-                    TextField("Bu alias ne işe yarar?", text: $comment)
+                    TextField("What does this alias do?", text: $comment)
                         .textFieldStyle(.roundedBorder)
                 }
 
-                // Önizleme
+                // Preview
                 if !name.isEmpty && !command.isEmpty {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Önizleme")
+                        Text("Preview")
                             .font(.subheadline)
                             .fontWeight(.medium)
                             .foregroundColor(.secondary)
@@ -142,16 +142,16 @@ struct AliasFormView: View {
 
             Divider()
 
-            // Butonlar
+            // Buttons
             HStack {
-                Button("İptal") {
+                Button("Cancel") {
                     dismiss()
                 }
                 .keyboardShortcut(.cancelAction)
 
                 Spacer()
 
-                Button(isEditing ? "Kaydet" : "Ekle") {
+                Button(isEditing ? "Save" : "Add") {
                     showValidation = true
                     if isFormValid {
                         onSave(name, command, comment)

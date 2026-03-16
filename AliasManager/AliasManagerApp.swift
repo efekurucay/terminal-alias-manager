@@ -1,7 +1,6 @@
 import SwiftUI
 
-/// AliasManager — macOS Terminal Alias Yönetim Uygulaması
-/// ~/.zshrc dosyasındaki alias'ları görsel olarak yönetin.
+/// AliasManager — A native macOS app to manage your terminal aliases.
 @main
 struct AliasManagerApp: App {
 
@@ -12,19 +11,19 @@ struct AliasManagerApp: App {
         .windowStyle(.titleBar)
         .defaultSize(width: 800, height: 550)
         .commands {
-            // Dosya menüsü komutları
+            // File menu commands
             CommandGroup(after: .newItem) {
-                Button("Yenile") {
+                Button("Refresh") {
                     NotificationCenter.default.post(name: .refreshAliases, object: nil)
                 }
                 .keyboardShortcut("r", modifiers: .command)
             }
 
-            // Yardım menüsü
+            // Help menu
             CommandGroup(replacing: .help) {
-                Button("AliasManager Hakkında") {
+                Button("About AliasManager") {
                     NSWorkspace.shared.open(
-                        URL(string: "https://github.com")!
+                        URL(string: "https://github.com/efekurucay/terminal-alias-manager")!
                     )
                 }
             }
