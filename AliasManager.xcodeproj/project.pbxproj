@@ -3,34 +3,38 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		013FE2BBC4DF78EC6CE6582B /* AliasManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007040F6CD57E4256B75053D /* AliasManagerApp.swift */; };
+		20C46E988C3235E9D4B7900A /* AliasRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA2F19F0385D371E2212F68 /* AliasRowView.swift */; };
+		2EA2256077DDD03601ED96E7 /* AliasFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541156FBBCCDDCCF730A399E /* AliasFormView.swift */; };
 		303E63462DBB22695891F72A /* AliasItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471DE02C63892B04E7B368A8 /* AliasItem.swift */; };
 		963F09925417597EB994B066 /* ZshrcService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A858D01F18E2685857189ED /* ZshrcService.swift */; };
-		F50980442C5703C01117E8A4 /* AliasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9FB8E2356BF21536E8107 /* AliasViewModel.swift */; };
-		F3EB1DD40F7AFFCF4C5B2777 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8C13525269D9F9FAC9D986 /* ContentView.swift */; };
-		20C46E988C3235E9D4B7900A /* AliasRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA2F19F0385D371E2212F68 /* AliasRowView.swift */; };
+		B43E94F12F6792D200212C3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B43E94F02F6792D200212C3A /* Assets.xcassets */; };
 		C1BDAE8DA20E7C665DAF9024 /* AliasDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052F27868857AFA0DAD038A1 /* AliasDetailView.swift */; };
-		2EA2256077DDD03601ED96E7 /* AliasFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541156FBBCCDDCCF730A399E /* AliasFormView.swift */; };
-		99812033B8BD7CDC0C7E876A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC3340C45202B29152467289 /* Assets.xcassets */; };
+		F3EB1DD40F7AFFCF4C5B2777 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8C13525269D9F9FAC9D986 /* ContentView.swift */; };
+		F50980442C5703C01117E8A4 /* AliasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9FB8E2356BF21536E8107 /* AliasViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		71CCD365E3A654DA84DBA191 /* AliasManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AliasManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		007040F6CD57E4256B75053D /* AliasManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasManagerApp.swift; sourceTree = "<group>"; };
-		471DE02C63892B04E7B368A8 /* AliasItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasItem.swift; sourceTree = "<group>"; };
-		2A858D01F18E2685857189ED /* ZshrcService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZshrcService.swift; sourceTree = "<group>"; };
-		14E9FB8E2356BF21536E8107 /* AliasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasViewModel.swift; sourceTree = "<group>"; };
-		0A8C13525269D9F9FAC9D986 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		CCA2F19F0385D371E2212F68 /* AliasRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasRowView.swift; sourceTree = "<group>"; };
 		052F27868857AFA0DAD038A1 /* AliasDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasDetailView.swift; sourceTree = "<group>"; };
+		0A8C13525269D9F9FAC9D986 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		14E9FB8E2356BF21536E8107 /* AliasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasViewModel.swift; sourceTree = "<group>"; };
+		2A858D01F18E2685857189ED /* ZshrcService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZshrcService.swift; sourceTree = "<group>"; };
+		471DE02C63892B04E7B368A8 /* AliasItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasItem.swift; sourceTree = "<group>"; };
 		541156FBBCCDDCCF730A399E /* AliasFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasFormView.swift; sourceTree = "<group>"; };
-		CC3340C45202B29152467289 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		71CCD365E3A654DA84DBA191 /* AliasManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AliasManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A15B813301BC1B9790A9A209 /* AliasManager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AliasManager.entitlements; sourceTree = "<group>"; };
+		B43E94F02F6792D200212C3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CCA2F19F0385D371E2212F68 /* AliasRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		B43E94ED2F6790F700212C3A /* docs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = docs; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3F4059646109411E96DED4C1 /* Frameworks */ = {
@@ -43,14 +47,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8D3FC6DB5D0827F168A73277 = {
-			isa = PBXGroup;
-			children = (
-				BB02FE6C4678B79B215868AF /* AliasManager */,
-				1BADDC1D73C1A20F347483E1 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
 		1BADDC1D73C1A20F347483E1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -59,26 +55,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BB02FE6C4678B79B215868AF /* AliasManager */ = {
+		420CEB417186B52ECF642348 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				007040F6CD57E4256B75053D /* AliasManagerApp.swift */,
-				9CF43B31E8845D861542A38E /* Models */,
-				564EAF51B7DD4639ADD9B985 /* Services */,
-				420CEB417186B52ECF642348 /* ViewModels */,
-				C454586A1F4E28C340BDC1AD /* Views */,
-				CC3340C45202B29152467289 /* Assets.xcassets */,
-				A15B813301BC1B9790A9A209 /* AliasManager.entitlements */,
+				14E9FB8E2356BF21536E8107 /* AliasViewModel.swift */,
 			);
-			path = AliasManager;
-			sourceTree = "<group>";
-		};
-		9CF43B31E8845D861542A38E /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				471DE02C63892B04E7B368A8 /* AliasItem.swift */,
-			);
-			path = Models;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		564EAF51B7DD4639ADD9B985 /* Services */ = {
@@ -89,12 +71,35 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		420CEB417186B52ECF642348 /* ViewModels */ = {
+		8D3FC6DB5D0827F168A73277 = {
 			isa = PBXGroup;
 			children = (
-				14E9FB8E2356BF21536E8107 /* AliasViewModel.swift */,
+				BB02FE6C4678B79B215868AF /* AliasManager */,
+				1BADDC1D73C1A20F347483E1 /* Products */,
 			);
-			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9CF43B31E8845D861542A38E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				471DE02C63892B04E7B368A8 /* AliasItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BB02FE6C4678B79B215868AF /* AliasManager */ = {
+			isa = PBXGroup;
+			children = (
+				B43E94ED2F6790F700212C3A /* docs */,
+				007040F6CD57E4256B75053D /* AliasManagerApp.swift */,
+				9CF43B31E8845D861542A38E /* Models */,
+				564EAF51B7DD4639ADD9B985 /* Services */,
+				420CEB417186B52ECF642348 /* ViewModels */,
+				C454586A1F4E28C340BDC1AD /* Views */,
+				A15B813301BC1B9790A9A209 /* AliasManager.entitlements */,
+				B43E94F02F6792D200212C3A /* Assets.xcassets */,
+			);
+			path = AliasManager;
 			sourceTree = "<group>";
 		};
 		C454586A1F4E28C340BDC1AD /* Views */ = {
@@ -122,6 +127,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B43E94ED2F6790F700212C3A /* docs */,
 			);
 			name = AliasManager;
 			productName = AliasManager;
@@ -167,7 +175,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99812033B8BD7CDC0C7E876A /* Assets.xcassets in Resources */,
+				B43E94F12F6792D200212C3A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +200,60 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		6AAB59A3C0BAF710B2045EA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AliasManager/AliasManager.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 AliasManager. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aliasmanager.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		6DDE1771F95A650A2C7249BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AliasManager/AliasManager.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 AliasManager. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aliasmanager.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
 		AD85203BDABA5D77C97D3165 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -308,60 +370,6 @@
 			};
 			name = Release;
 		};
-		6AAB59A3C0BAF710B2045EA5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = AliasManager/AliasManager.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 AliasManager. All rights reserved.";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aliasmanager.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.9;
-			};
-			name = Debug;
-		};
-		6DDE1771F95A650A2C7249BE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = AliasManager/AliasManager.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 AliasManager. All rights reserved.";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aliasmanager.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.9;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -384,7 +392,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
 	};
 	rootObject = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
 }
